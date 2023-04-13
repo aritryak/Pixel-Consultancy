@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:short_video_app/presentation/video/createvideo.dart';
+import 'package:short_video_app/presentation/auth/login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,10 +12,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,  
       theme: ThemeData(
-       
-        primarySwatch: Colors.blue,
+        // primarySwatch: ,
       ),
-      home: const CreateVideo(),
+      home: Login(),
     );
   }
 }

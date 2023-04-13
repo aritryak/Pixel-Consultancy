@@ -38,6 +38,8 @@ dependencies:
   flutter_neumorphic: ^3.2.0
   clay_containers: ^0.3.2
   flutter_vector_icons: ^2.0.0
+  get: ^4.6.5
+  intl_phone_field: ^3.1.0
 
 dev_dependencies:
   flutter_test:

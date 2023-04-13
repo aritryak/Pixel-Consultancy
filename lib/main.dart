@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:short_video_app/presentation/video/createvideo.dart';
+import 'package:short_video_app/model/color.model.dart';
+import 'package:short_video_app/model/font.model.dart';
+
+import 'presentation/bottomnav/bottom.nav.screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,10 +15,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,  
       theme: ThemeData(
-       
-        primarySwatch: Colors.blue,
+        primaryColor: AppColors.primary,
+        fontFamily: Fonts.regular,
+        scaffoldBackgroundColor: AppColors.white
       ),
-      home: const CreateVideo(),
+      home:  BottomNavBarScreen(),
     );
   }
 }

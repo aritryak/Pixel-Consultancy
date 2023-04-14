@@ -6,41 +6,57 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:short_video_app/model/color.model.dart';
 import 'package:short_video_app/model/font.model.dart';
 
-class SearchReel extends StatelessWidget {
-  SearchReel({super.key});
+class SearchReel extends StatefulWidget {
+  const SearchReel({super.key});
+
+  @override
+  State<SearchReel> createState() => _SearchReelState();
+}
+
+class _SearchReelState extends State<SearchReel> {
   List newVideo = [
     'assets/mask-group.png',
     'assets/mask-group.png',
-    
   ];
+
   List fashionVideo = [
-     'assets/pexels-the-world-hopper-1851481.png',
+    'assets/pexels-the-world-hopper-1851481.png',
     'assets/pexels-motional-studio-1081685 1.png',
-       'assets/pexels-the-world-hopper-1851481.png',
+    'assets/pexels-the-world-hopper-1851481.png',
   ];
 
   List comedyVideo = [
     'assets/pexels-spencer-davis-4388168 1.png',
-        'assets/pexels-spencer-davis-4388168 1.png',
-
+    'assets/pexels-spencer-davis-4388168 1.png',
     'assets/pexels-mikhail-nilov-7705975 1.png',
   ];
+
   List travelVideo = [
     'assets/pexels-the-world-hopper-1851481.png',
     'assets/pexels-spencer-davis-4388168 1.png',
     'assets/pexels-spencer-davis-4388168 1.png',
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
+      appBar: AppBar(
+        toolbarHeight: 100,
+        flexibleSpace: Container(height: 100,),
+        elevation: 0.0,
+        backgroundColor: AppColors.background,
+        bottom:  PreferredSize(preferredSize: const Size(double.infinity, 20),child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: searchBox,
+        ),)
+      ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: SingleChildScrollView(
           child: Container(
             child: Column(
               children: [
-                searchBox,
                 seeNew,
                 newVideos,
                 fashion,
@@ -58,32 +74,29 @@ class SearchReel extends StatelessWidget {
   }
 
 // search text field
-  Widget get searchBox => Padding(
-        padding: const EdgeInsets.only(top: 80.0),
-        child: ClayContainer(
-            color: AppColors.background,
-            surfaceColor: AppColors.background,
-            // emboss: true,
-            borderRadius: 50,
-            depth: 10,
-            spread: 1,
-            curveType: CurveType.none,
-            child: TextFormField(
-              style: const TextStyle(color: Colors.white70),
-              decoration: InputDecoration(
-                focusedBorder: InputBorder.none,
-                prefixIcon: IconButton(
-                    onPressed: () {},
-                    icon:  Icon(
-                      Feather.search,
-                      color:AppColors.white,
-                    )),
-                hintText: 'Type here...',
-                hintStyle:
-                    TextStyle(color:  AppColors.white, fontFamily: Fonts.regular),
-              ),
-            )),
-      );
+  Widget get searchBox => ClayContainer(
+      color: AppColors.background,
+      surfaceColor: AppColors.background,
+      // emboss: true,
+      borderRadius: 50,
+      depth: 10,
+      spread: 1,
+      curveType: CurveType.none,
+      child: TextFormField(
+        style: const TextStyle(color: Colors.white70),
+        decoration: InputDecoration(
+          focusedBorder: InputBorder.none,
+          prefixIcon: IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Feather.search,
+                color: AppColors.white,
+              )),
+          hintText: 'Type here...',
+          hintStyle: TextStyle(
+              color: AppColors.white, fontFamily: Fonts.regular),
+        ),
+      ));
 
   // what's new option
   Widget get seeNew => Padding(
@@ -99,7 +112,10 @@ class SearchReel extends StatelessWidget {
                 text: TextSpan(children: [
               TextSpan(
                 text: 'See All',
-                style: TextStyle(color: AppColors.primary, fontFamily: Fonts.regular, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    color: AppColors.primary,
+                    fontFamily: Fonts.regular,
+                    fontWeight: FontWeight.bold),
               )
             ])),
           ],
@@ -135,13 +151,16 @@ class SearchReel extends StatelessWidget {
           children: [
             Text(
               '#fashion',
-              style: TextStyle(color:  AppColors.white, fontFamily: Fonts.light),
+              style: TextStyle(color: AppColors.white, fontFamily: Fonts.light),
             ),
             RichText(
                 text: TextSpan(children: [
               TextSpan(
                 text: 'See All',
-                style: TextStyle(color: AppColors.primary, fontFamily: Fonts.regular,  fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    color: AppColors.primary,
+                    fontFamily: Fonts.regular,
+                    fontWeight: FontWeight.bold),
               )
             ])),
           ],
@@ -168,6 +187,7 @@ class SearchReel extends StatelessWidget {
           width: 15,
         ),
       ));
+
   // comedy
   Widget get comedy => Padding(
         padding: const EdgeInsets.only(top: 10.0, bottom: 10),
@@ -176,13 +196,16 @@ class SearchReel extends StatelessWidget {
           children: [
             Text(
               '#comedy',
-              style: TextStyle(color:  AppColors.white, fontFamily: Fonts.light),
+              style: TextStyle(color: AppColors.white, fontFamily: Fonts.light),
             ),
             RichText(
                 text: TextSpan(children: [
               TextSpan(
                 text: 'See All',
-                style: TextStyle(color: AppColors.primary, fontFamily: Fonts.regular,  fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    color: AppColors.primary,
+                    fontFamily: Fonts.regular,
+                    fontWeight: FontWeight.bold),
               )
             ])),
           ],
@@ -218,13 +241,16 @@ class SearchReel extends StatelessWidget {
           children: [
             Text(
               '#travel',
-              style: TextStyle(color:  AppColors.white, fontFamily: Fonts.light),
+              style: TextStyle(color: AppColors.white, fontFamily: Fonts.light),
             ),
             RichText(
                 text: TextSpan(children: [
               TextSpan(
                 text: 'See All',
-                style: TextStyle(color: AppColors.primary, fontFamily: Fonts.regular,  fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    color: AppColors.primary,
+                    fontFamily: Fonts.regular,
+                    fontWeight: FontWeight.bold),
               )
             ])),
           ],
@@ -253,6 +279,4 @@ class SearchReel extends StatelessWidget {
           width: 15,
         ),
       ));
-
-
 }

@@ -1,18 +1,32 @@
-// ignore_for_file: avoid_unnecessary_containers
+// ignore_for_file: avoid_unnecessary_containers, prefer_const_constructors_in_immutables
 
-import 'package:country_code_picker/country_code_picker.dart';
+import 'dart:async';
+
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:get/get.dart';
+import 'package:pinput/pinput.dart';
 import 'package:short_video_app/controller/auth.controller.dart';
 import 'package:short_video_app/model/color.model.dart';
 import 'package:short_video_app/model/font.model.dart';
-import 'package:short_video_app/presentation/auth/otpverification.dart';
+import 'package:short_video_app/presentation/video/searchreel.dart';
 
-class Login extends StatelessWidget {
-  Login({super.key});
-  final formKey = GlobalKey<FormState>();
+class OTPVerification extends StatefulWidget {
+   OTPVerification({super.key, this.phone});
+  final String? phone;
+  
+  @override
+  State<OTPVerification> createState() => _OTPVerificationState();
+}
+
+class _OTPVerificationState extends State<OTPVerification> {
+  
   final auth = Get.put(AuthController());
+  
+  final formKey = GlobalKey<FormState>();
+  int count = 60;
+  Timer? timer;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,12 +47,12 @@ class Login extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  phoneNumberTitle,
-                  phoneNumberSubTitle,
-                  phoneTextBoxTitle,
-                  phoneNumberTextField,
+                  verificationTitle,
+                  verificationSubTitle,
+                  otpField,
                   verify,
-                  termCondition
+                  sessionEnd,
+                  resendCode
                 ],
               ),
             ),
@@ -48,10 +62,31 @@ class Login extends StatelessWidget {
     );
   }
 
-  // login title
-  Widget get phoneNumberTitle => Padding(
+  @override
+  void initState() {
+    super.initState();
+
+    /// Initialize a periodic timer with 1 second duration
+    timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (timer) {
+        /// callback will be executed every 1 second, increament a count value
+        /// on each callback
+        setState(() {
+          if (count < 1) {
+            timer.cancel();
+          } else {
+            count--;
+          }
+        });
+      },
+    );
+  }
+
+  // verification title
+  Widget get verificationTitle => Padding(
         padding: const EdgeInsets.only(top: 20),
-        child: Text('Your phone number',
+        child: Text('Verify account!',
             style: TextStyle(
                 fontFamily: Fonts.regular,
                 fontWeight: FontWeight.bold,
@@ -59,59 +94,33 @@ class Login extends StatelessWidget {
                 color: AppColors.white)),
       );
 
-  // login subtitle
-  Widget get phoneNumberSubTitle => Padding(
+  // verification subtitle
+  Widget get verificationSubTitle => Padding(
         padding: const EdgeInsets.only(top: 10),
-        child: Text('Please confirm country code and enter your phone number',
+        child: Text('Enter 4-digit code sent at ${widget.phone}',
             style: TextStyle(
                 fontFamily: Fonts.light, fontSize: 16, color: AppColors.white)),
       );
 
-  // login textfield heading
-  Widget get phoneTextBoxTitle => Padding(
-        padding: const EdgeInsets.only(top: 60),
-        child: Text('Enter Your phone number',
-            style: TextStyle(
-                fontFamily: Fonts.light,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: AppColors.white)),
-      );
-
-  // phone number textfield
-
-  Widget get phoneNumberTextField => Padding(
-        padding: const EdgeInsets.only(top: 20),
-        child: TextFormField(
-          controller: auth.phone,
-          keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-              prefixIcon: CountryCodePicker(
-                dialogBackgroundColor: AppColors.background,
-                initialSelection: 'IN',
-                favorite: const ['+91', 'IN'],
-                textStyle: TextStyle(color: AppColors.white),
-                dialogTextStyle: TextStyle(color: AppColors.white),
-              ),
-              prefixIconColor: AppColors.white,
-              enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.white)),
-              focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.white)),
-              hintText: 'Enter you number',
-              hintStyle: const TextStyle(color: Colors.grey)),
-          style: TextStyle(color: AppColors.white),
-          validator: (phone) {
-            if (phone!.isEmpty && phone.length < 10) {
-              return 'Enter phone number to proceed further';
+//otp widget
+  Widget get otpField => Padding(
+        padding: const EdgeInsets.only(top: 30),
+        child: Container(
+            child: Pinput(
+          autofocus: true,
+          controller: auth.otpController,
+          length: 4,
+          validator: (otp) {
+            if (otp!.isEmpty) {
+              return 'Plaese enter otp';
             } else {
               return null;
             }
           },
-        ),
+        )),
       );
 
-// verify button
+// verify otp
   Widget get verify => Padding(
         padding: const EdgeInsets.only(top: 30),
         child: ElevatedButton(
@@ -121,32 +130,44 @@ class Login extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10))),
             onPressed: () {
-              FocusManager.instance.primaryFocus!.unfocus();
+               FocusManager.instance.primaryFocus!.unfocus();
               if (formKey.currentState!.validate()) {
-                Get.to( OTPVerification(phone: auth.phone.text,));
+                Get.to(const SearchReel());
+              }
+              else{
+                Get.snackbar('Something wrong', 'please enter otp', colorText: AppColors.white);
               }
             },
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(
-                'Next >',
+                'Verify >',
                 style: TextStyle(fontFamily: Fonts.medium, fontSize: 18),
               ),
             )),
       );
 
-  // term and condition
-  Widget get termCondition => Padding(
+  // session end text
+  Widget get sessionEnd => Padding(
+        padding: const EdgeInsets.only(top: 30),
+        child: Text(
+          'The session will end in $count seconds',
+          style: TextStyle(fontFamily: Fonts.light, color: AppColors.white),
+        ),
+      );
+
+  // resend code
+  Widget get resendCode => Padding(
         padding: const EdgeInsets.only(top: 30),
         child: Row(
           children: [
             Text(
-              'By signing in, agree to the ',
+              "Didn't get code? ",
               style: TextStyle(fontFamily: Fonts.light, color: AppColors.white),
             ),
             RichText(
                 text: TextSpan(
-                    text: 'Terms & Conditions',
+                    text: 'Resend Code',
                     style: TextStyle(
                         fontFamily: Fonts.medium, color: AppColors.primary)))
           ],

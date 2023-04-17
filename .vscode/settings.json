@@ -1,0 +1,7 @@
+{
+    "editor.fontFamily": "nospace",
+    "editor.fontSize": 17,
+    "notebook.output.wordWrap": false,
+    "editor.wordWrapColumn": 20000,
+    "diffEditor.wordWrap": "off"
+}

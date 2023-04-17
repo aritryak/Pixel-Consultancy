@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_unnecessary_containers, sized_box_for_whitespace
-
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';

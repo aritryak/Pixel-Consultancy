@@ -54,6 +54,7 @@ class _SearchReelState extends State<SearchReel> {
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: SingleChildScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           child: Container(
             child: Column(
               children: [
@@ -65,6 +66,7 @@ class _SearchReelState extends State<SearchReel> {
                 comedyVideos,
                 travel,
                 travelVideos
+                
               ],
             ),
           ),

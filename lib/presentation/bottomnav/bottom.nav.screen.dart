@@ -8,12 +8,14 @@ import 'package:short_video_app/presentation/video/dashboard/dashboard.dart';
 
 class BottomNavBarScreen extends StatelessWidget {
   BottomNavBarScreen({super.key});
+  
   final screens = [
     Dashboard(),
     Dashboard(),
     Dashboard(),
     Dashboard(),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

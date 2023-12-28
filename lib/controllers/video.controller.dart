@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:chewie/chewie.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:short_video_app/model/color.model.dart';
 import 'package:short_video_app/model/video.model.dart';
 import 'package:video_player/video_player.dart';
 
@@ -10,36 +14,43 @@ class VideoController extends GetxController {
   void onInit() {
     super.onInit();
     videos.addAll(availableVideos);
+    initializeControllers(url: "https://assets.mixkit.co/videos/preview/mixkit-man-under-multicolored-lights-1237-large.mp4");
   }
 
   // Initializing video player controller
-  Rx<VideoPlayerController> videoPlayerController =
-      VideoPlayerController.asset("").obs;
+  VideoPlayerController? videoPlayerController;
   // Initializing chewie controller
-  Rx<ChewieController> chewieController =
-      ChewieController(videoPlayerController: VideoPlayerController.asset(""))
-          .obs;
+  ChewieController? chewieController;
 
   // Function to initialize two video controllers
   void initializeControllers({required String url}) async {
-    videoPlayerController.value = VideoPlayerController.network(url);
+    videoPlayerController = VideoPlayerController.network(url);
 
-    chewieController.value = ChewieController(
-        videoPlayerController: videoPlayerController.value,
+    // await Future.wait([videoPlayerController!.initialize()]);
+    await videoPlayerController!.initialize();
+
+    chewieController = ChewieController(
+        videoPlayerController: videoPlayerController!,
         autoInitialize: true,
         autoPlay: true,
         showControls: false,
         aspectRatio: Get.size.aspectRatio,
-        looping: true);
+        looping: true,
+        );
 
-    await videoPlayerController.value.initialize();
-    await chewieController.value.play();
+    update();
   }
 
   @override
   void dispose() {
     super.dispose();
-    videoPlayerController.value.dispose();
-    chewieController.value.dispose();
+    videoPlayerController!.dispose();
+    chewieController!.dispose();
+  }
+
+  @override
+  void onClose() {
+    videoPlayerController!.dispose();
+    chewieController!.dispose();
   }
 }

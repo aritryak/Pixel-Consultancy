@@ -1,9 +1,11 @@
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:get/get.dart';
 import 'package:short_video_app/commons/common.vars.dart';
 import 'package:short_video_app/model/bottomnav.model.dart';
 import 'package:short_video_app/model/color.model.dart';
+import 'package:short_video_app/presentation/video/create.video/create.video.screen.dart';
 import 'package:short_video_app/presentation/video/dashboard/dashboard.dart';
 
 class BottomNavBarScreen extends StatelessWidget {
@@ -38,6 +40,9 @@ class BottomNavBarScreen extends StatelessWidget {
                 return BottomNavigationBar(
                     onTap: (index) {
                       selectedIndex.value = index;
+                      if(index==2){
+                        Get.to(()=>CreateVideoScreen());
+                      }
                     },
                     showSelectedLabels: false,
                     showUnselectedLabels: false,

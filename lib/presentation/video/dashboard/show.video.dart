@@ -12,13 +12,9 @@ class ShowVideo extends StatefulWidget {
 }
 
 class _ShowVideoState extends State<ShowVideo> {
+  // video controller
   final videoController = Get.put(VideoController());
 
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //   videoController.dispose();
-  // }
 
   @override
   void initState() {
@@ -29,20 +25,14 @@ class _ShowVideoState extends State<ShowVideo> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      // if (videoController
-      //     .chewieController.value.videoPlayerController.value.isInitialized) {
+    
       return Transform.scale(
         scaleX: 1.15,
         child: Chewie(
           controller: videoController.chewieController.value,
         ),
       );
-      // } else {
-      //   return Text(videoController.videoPlayerController.value.toString());
-      //   // Container(
-      //   //     color: AppColors.neumorphicColor,
-      //   //     child: CommonWidgets.circularLoader);
-      // }
+     
     });
   }
 }

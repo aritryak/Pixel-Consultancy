@@ -19,7 +19,7 @@ class VideoTile extends StatelessWidget {
         ShowVideo(videoUrl: video.videoUrl ?? ""),
         /* Other details */
         Container(
-          decoration: BoxDecoration(
+          decoration: BoxDecoration( 
               gradient: LinearGradient(colors: [
             AppColors.white.withOpacity(0.05),
             AppColors.black.withOpacity(0.05),

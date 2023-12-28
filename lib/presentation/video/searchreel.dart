@@ -42,15 +42,20 @@ class _SearchReelState extends State<SearchReel> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        toolbarHeight: 100,
-        flexibleSpace: Container(height: 100,),
-        elevation: 0.0,
-        backgroundColor: AppColors.background,
-        bottom:  PreferredSize(preferredSize: const Size(double.infinity, 20),child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: searchBox,
-        ),)
-      ),
+          automaticallyImplyLeading: false,
+          toolbarHeight: 80,
+          flexibleSpace: Container(
+            height: 100,
+          ),
+          elevation: 0.0,
+          backgroundColor: AppColors.background,
+          bottom: PreferredSize(
+            preferredSize: const Size(double.infinity, 20),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: searchBox,
+            ),
+          )),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: SingleChildScrollView(
@@ -66,7 +71,6 @@ class _SearchReelState extends State<SearchReel> {
                 comedyVideos,
                 travel,
                 travelVideos
-                
               ],
             ),
           ),
@@ -84,10 +88,12 @@ class _SearchReelState extends State<SearchReel> {
       depth: 10,
       spread: 1,
       curveType: CurveType.none,
+      
       child: TextFormField(
         style: const TextStyle(color: Colors.white70),
         decoration: InputDecoration(
           focusedBorder: InputBorder.none,
+          border: InputBorder.none,
           prefixIcon: IconButton(
               onPressed: () {},
               icon: Icon(
@@ -95,20 +101,22 @@ class _SearchReelState extends State<SearchReel> {
                 color: AppColors.white,
               )),
           hintText: 'Type here...',
-          hintStyle: TextStyle(
-              color: AppColors.white, fontFamily: Fonts.regular),
+          hintStyle:
+              TextStyle(color: AppColors.white, fontFamily: Fonts.regular),
         ),
       ));
 
   // what's new option
   Widget get seeNew => Padding(
-        padding: const EdgeInsets.only(top: 10.0, bottom: 10),
+        padding:
+            const EdgeInsets.only(top: 10.0, left: 10, right: 10, bottom: 2),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               "What's new!",
-              style: TextStyle(color: AppColors.white, fontFamily: Fonts.light),
+              style:
+                  TextStyle(color: AppColors.white, fontFamily: Fonts.medium),
             ),
             RichText(
                 text: TextSpan(children: [

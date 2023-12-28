@@ -1,27 +1,40 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:get/get.dart';
 import 'package:short_video_app/commons/common.vars.dart';
 import 'package:short_video_app/model/bottomnav.model.dart';
 import 'package:short_video_app/model/color.model.dart';
+import 'package:short_video_app/presentation/profile/profile.dart';
+import 'package:short_video_app/presentation/video/create.video/create.video.screen.dart';
 import 'package:short_video_app/presentation/video/dashboard/dashboard.dart';
+import 'package:short_video_app/presentation/video/searchreel.dart';
+import 'package:short_video_app/presentation/video/trending.video.dart';
 
 class BottomNavBarScreen extends StatelessWidget {
   BottomNavBarScreen({super.key});
-  
-  final screens = [
+
+  final screens = const [
     Dashboard(),
+    SearchReel(),
     Dashboard(),
-    Dashboard(),
-    Dashboard(),
+    TrendingVideo(),
+    Profile()
   ];
 
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Dashboard(),
-      bottomNavigationBar: bottomNavBarWidget,
-    );
+    return ValueListenableBuilder(
+        valueListenable: selectedIndex,
+        builder: (context, selected, child) {
+          return Scaffold(
+            body: screens[selected],
+            bottomNavigationBar: bottomNavBarWidget,
+          );
+        });
   }
 
   /* Bottom navigation bar widget */
@@ -38,6 +51,10 @@ class BottomNavBarScreen extends StatelessWidget {
                 return BottomNavigationBar(
                     onTap: (index) {
                       selectedIndex.value = index;
+                      if (index == 2) {
+                        // navigate to create video screen
+                        Get.to(const CreateVideoScreen());
+                      }
                     },
                     showSelectedLabels: false,
                     showUnselectedLabels: false,

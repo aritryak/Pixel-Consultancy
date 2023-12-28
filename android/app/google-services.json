@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "591303936074",
+    "project_id": "go-play-da780",
+    "storage_bucket": "go-play-da780.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:591303936074:android:7e3bf18c13fd8027167eb3",
+        "android_client_info": {
+          "package_name": "com.example.short_video_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2hnJj3qDU1p_QTBe6kGHUrLLkgtiPa-8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

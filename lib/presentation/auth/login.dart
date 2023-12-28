@@ -1,47 +1,63 @@
 // ignore_for_file: avoid_unnecessary_containers
 
-import 'package:country_code_picker/country_code_picker.dart';
+import 'dart:math' as math;
+
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:get/get.dart';
+import 'package:short_video_app/commons/common.button.dart';
+import 'package:short_video_app/commons/common.textfield.dart';
 import 'package:short_video_app/controller/auth.controller.dart';
 import 'package:short_video_app/model/color.model.dart';
 import 'package:short_video_app/model/font.model.dart';
 import 'package:short_video_app/presentation/auth/otpverification.dart';
+import 'package:short_video_app/presentation/auth/register.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
   Login({super.key});
-  final formKey = GlobalKey<FormState>();
-  final auth = Get.put(AuthController());
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  /* login form key */
+  GlobalKey<FormState> loginkey =
+      GlobalKey<FormState>(debugLabel: math.Random().nextInt(10).toString());
+
+  final authController = Get.put(AuthController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        backgroundColor: AppColors.background,
-        elevation: 0.0,
-        leading: const Icon(
-          Feather.chevron_left,
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Container(
-            child: Form(
-              key: formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  phoneNumberTitle,
-                  phoneNumberSubTitle,
-                  phoneTextBoxTitle,
-                  phoneNumberTextField,
-                  verify,
-                  termCondition
-                ],
-              ),
-            ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Form(
+          key: loginkey,
+          child: ListView(
+            children: [
+              /* title*/
+              title,
+              /* sub title */
+              subTitle,
+              /* second title */
+              secondTitle,
+
+              /* email */
+              emailField,
+              /* passowrd */
+              passwordField,
+              /* forgot password */
+              forgotpassword,
+              /* login button */
+              loginButton,
+
+              orOption,
+              socialMediaIcons,
+              // termCondition,
+              registerOption
+            ],
           ),
         ),
       ),
@@ -49,9 +65,9 @@ class Login extends StatelessWidget {
   }
 
   // login title
-  Widget get phoneNumberTitle => Padding(
+  Widget get title => Padding(
         padding: const EdgeInsets.only(top: 20),
-        child: Text('Your phone number',
+        child: Text('Welcome Back!',
             style: TextStyle(
                 fontFamily: Fonts.regular,
                 fontWeight: FontWeight.bold,
@@ -60,7 +76,7 @@ class Login extends StatelessWidget {
       );
 
   // login subtitle
-  Widget get phoneNumberSubTitle => Padding(
+  Widget get subTitle => Padding(
         padding: const EdgeInsets.only(top: 10),
         child: Text('Please confirm country code and enter your phone number',
             style: TextStyle(
@@ -68,9 +84,9 @@ class Login extends StatelessWidget {
       );
 
   // login textfield heading
-  Widget get phoneTextBoxTitle => Padding(
+  Widget get secondTitle => Padding(
         padding: const EdgeInsets.only(top: 60),
-        child: Text('Enter Your phone number',
+        child: Text('Enter Your details',
             style: TextStyle(
                 fontFamily: Fonts.light,
                 fontWeight: FontWeight.bold,
@@ -78,32 +94,18 @@ class Login extends StatelessWidget {
                 color: AppColors.white)),
       );
 
-  // phone number textfield
-
-  Widget get phoneNumberTextField => Padding(
-        padding: const EdgeInsets.only(top: 20),
-        child: TextFormField(
-          controller: auth.phone,
-          keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-              prefixIcon: CountryCodePicker(
-                dialogBackgroundColor: AppColors.background,
-                initialSelection: 'IN',
-                favorite: const ['+91', 'IN'],
-                textStyle: TextStyle(color: AppColors.white),
-                dialogTextStyle: TextStyle(color: AppColors.white),
-              ),
-              prefixIconColor: AppColors.white,
-              enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.white)),
-              focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.white)),
-              hintText: 'Enter you number',
-              hintStyle: const TextStyle(color: Colors.grey)),
-          style: TextStyle(color: AppColors.white),
-          validator: (phone) {
-            if (phone!.isEmpty && phone.length < 10) {
-              return 'Enter phone number to proceed further';
+  /* email field */
+  Widget get emailField => Padding(
+        padding: const EdgeInsets.only(top: 10.0),
+        child: CommonTextField(
+          controller: authController.emailController,
+          hint: "Email",
+          prefixicon: Feather.mail,
+          validator: (email) {
+            if (email!.isEmpty) {
+              return "Email address is required";
+            } else if (!email.isEmail) {
+              return "Enter valid email address";
             } else {
               return null;
             }
@@ -111,44 +113,147 @@ class Login extends StatelessWidget {
         ),
       );
 
-// verify button
-  Widget get verify => Padding(
-        padding: const EdgeInsets.only(top: 30),
-        child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                fixedSize: const Size(400, 50),
-                backgroundColor: AppColors.primary,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10))),
-            onPressed: () {
-              FocusManager.instance.primaryFocus!.unfocus();
-              if (formKey.currentState!.validate()) {
-                Get.to( OTPVerification(phone: auth.phone.text,));
-              }
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Text(
-                'Next >',
-                style: TextStyle(fontFamily: Fonts.medium, fontSize: 18),
-              ),
-            )),
+  /* password field */
+  Widget get passwordField => /* password field */
+      Obx(() => Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: CommonTextField(
+              controller: authController.passwordController,
+              hint: "Password",
+              prefixicon: Icons.lock_outline_rounded,
+              /* suffix icon changed based on the obsecurity */
+
+              suffixicon: authController.loginObsecure.value
+                  ? Icons.visibility_outlined
+                  : Icons.visibility_off_outlined,
+              obsecure: authController.loginObsecure.value,
+              changeobsecure: () {
+                /* changing password obsecure status */
+                authController.changeLoginObsecure;
+              },
+              validator: (password) {
+                if (password == null || password.isEmpty) {
+                  return "Password is required";
+                }
+                return null;
+              },
+            ),
+          ));
+
+  /* forgot password */
+  Widget get forgotpassword => Padding(
+        padding: const EdgeInsets.only(top: 10.0),
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: Text("Forgot Password?",
+              style: TextStyle(
+                  fontSize: 12,
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.bold)),
+        ),
       );
 
-  // term and condition
-  Widget get termCondition => Padding(
-        padding: const EdgeInsets.only(top: 30),
+  /* login button */
+  Widget get loginButton => Obx(() {
+        if (authController.loginButtonLoading.value) {
+          return  Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: CircularProgressIndicator(
+                color: AppColors.primary,
+              ),
+            ),
+          );
+        } else {
+          return Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: CommonButton(
+                text: "Login",
+                onPressed: () {
+                  if (loginkey.currentState!.validate()) {
+                    authController.login;
+                  }
+                }),
+          );
+        }
+      });
+
+  // // term and condition
+  // Widget get termCondition => Padding(
+  //       padding: const EdgeInsets.only(top: 30),
+  //       child: Row(
+  //         children: [
+  //           Text(
+  //             'By signing in, agree to the ',
+  //             style: TextStyle(fontFamily: Fonts.light, color: AppColors.white),
+  //           ),
+  //           RichText(
+  //               text: TextSpan(
+  //                   text: 'Terms & Conditions',
+  //                   style: TextStyle(
+  //                       fontFamily: Fonts.medium, color: AppColors.primary)))
+  //         ],
+  //       ),
+  //     );
+
+  // OR option
+  Widget get orOption => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        child: Text(
+          "or continue with",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontSize: 13,
+              color: AppColors.primary,
+              fontWeight: FontWeight.bold),
+        ),
+      );
+
+  // Social media icons
+  Widget get socialMediaIcons => Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 40,
+            child: Image.network(
+                "https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png"),
+          )
+          // socialMediaCommon(
+          //     icon:
+          //         "https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png"),
+          // socialMediaCommon(
+          //     icon:
+          //         "https://cdn.freebiesupply.com/logos/thumbs/2x/facebook-logo-2019-thumb.png")
+        ],
+      );
+
+  /* register option */
+  Widget get registerOption => Padding(
+        padding: const EdgeInsets.only(top: 20.0),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'By signing in, agree to the ',
-              style: TextStyle(fontFamily: Fonts.light, color: AppColors.white),
+              "Don't have an account?",
+              style: TextStyle(
+                  fontSize: 13.0,
+                  fontFamily: Fonts.regular,
+                  color: Colors.white),
             ),
-            RichText(
-                text: TextSpan(
-                    text: 'Terms & Conditions',
-                    style: TextStyle(
-                        fontFamily: Fonts.medium, color: AppColors.primary)))
+            const SizedBox(width: 8.0),
+            InkWell(
+              onTap: () {
+                Get.to(() => const RegisterScreen());
+              },
+              child: Text(
+                "Register Now",
+                style: TextStyle(
+                    fontSize: 13.0,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: Fonts.regular,
+                    color: AppColors.primary),
+              ),
+            )
           ],
         ),
       );

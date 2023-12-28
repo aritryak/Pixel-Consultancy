@@ -9,20 +9,20 @@ import 'package:pinput/pinput.dart';
 import 'package:short_video_app/controller/auth.controller.dart';
 import 'package:short_video_app/model/color.model.dart';
 import 'package:short_video_app/model/font.model.dart';
-import 'package:short_video_app/presentation/video/searchreel.dart';
+import 'package:short_video_app/presentation/auth/login.dart';
+import 'package:short_video_app/presentation/bottomnav/bottom.nav.screen.dart';
 
 class OTPVerification extends StatefulWidget {
-   OTPVerification({super.key, this.phone});
+  OTPVerification({super.key, this.phone});
   final String? phone;
-  
+
   @override
   State<OTPVerification> createState() => _OTPVerificationState();
 }
 
 class _OTPVerificationState extends State<OTPVerification> {
-  
   final auth = Get.put(AuthController());
-  
+
   final formKey = GlobalKey<FormState>();
   int count = 60;
   Timer? timer;
@@ -34,8 +34,11 @@ class _OTPVerificationState extends State<OTPVerification> {
       appBar: AppBar(
         backgroundColor: AppColors.background,
         elevation: 0.0,
-        leading: const Icon(
-          Feather.chevron_left,
+        leading: GestureDetector(
+          onTap: () => Get.to(Login()),
+          child: const Icon(
+            Feather.chevron_left,
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -107,6 +110,13 @@ class _OTPVerificationState extends State<OTPVerification> {
         padding: const EdgeInsets.only(top: 30),
         child: Container(
             child: Pinput(
+          defaultPinTheme: PinTheme(
+              constraints: const BoxConstraints(minWidth: 50, minHeight: 50),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: AppColors.white),
+              textStyle:
+                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           autofocus: true,
           controller: auth.otpController,
           length: 4,
@@ -130,18 +140,18 @@ class _OTPVerificationState extends State<OTPVerification> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10))),
             onPressed: () {
-               FocusManager.instance.primaryFocus!.unfocus();
+              FocusManager.instance.primaryFocus!.unfocus();
               if (formKey.currentState!.validate()) {
-                Get.to(const SearchReel());
-              }
-              else{
-                Get.snackbar('Something wrong', 'please enter otp', colorText: AppColors.white);
+                Get.to(BottomNavBarScreen());
+              } else {
+                Get.snackbar('Something wrong', 'please enter otp',
+                    colorText: AppColors.white);
               }
             },
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(
-                'Verify >',
+                'Verify',
                 style: TextStyle(fontFamily: Fonts.medium, fontSize: 18),
               ),
             )),

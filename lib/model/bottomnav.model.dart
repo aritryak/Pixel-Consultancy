@@ -12,6 +12,6 @@ List<BottomNavModel> bottomNavItems = [
   BottomNavModel(title: "", icon: Feather.command),
   BottomNavModel(title: "", icon: Feather.search),
   BottomNavModel(title: "", icon: Feather.plus),
-  BottomNavModel(title: '', icon: Feather.bookmark),
+  BottomNavModel(title: '', icon: Feather.film),
   BottomNavModel(title: "", icon: Feather.user)
 ];

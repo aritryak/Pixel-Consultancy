@@ -4,3 +4,5 @@ class Customer {
   String? image;
   Customer({this.image, this.name, this.userName});
 }
+
+

@@ -2,6 +2,7 @@ import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
 import 'package:short_video_app/model/video.model.dart';
 import 'package:video_player/video_player.dart';
+import 'package:video_trimmer/video_trimmer.dart';
 
 class VideoController extends GetxController {
   final List<Video> videos = [];
@@ -42,4 +43,11 @@ class VideoController extends GetxController {
     videoPlayerController.value.dispose();
     chewieController.value.dispose();
   }
+
+  /* trim video */
+  // void get trimVideo {
+    
+
+
+  // }
 }

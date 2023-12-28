@@ -1,6 +1,6 @@
 {
     "editor.fontFamily": "nospace",
-    "editor.fontSize": 17,
+    "editor.fontSize": 14,
     "notebook.output.wordWrap": false,
     "editor.wordWrapColumn": 20000,
     "diffEditor.wordWrap": "off"
